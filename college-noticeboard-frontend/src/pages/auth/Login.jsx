@@ -11,10 +11,19 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="relative min-h-screen">
+      {/* Page background split */}
+      <div className="absolute inset-0 -z-10 flex">
+        <div className="w-[50%] bg-zinc-900" />
+        <div className="w-[50%] bg-purple-400" />
+      </div>
+
+      <div className="min-h-screen flex justify-center items-center px-4 py-10">
+        <div className="flex border border-t-0 rounded-2xl overflow-hidden shadow-neutral-800 shadow-xl w-full max-w-5xl h-[88vh] z-50 ">
+        
       {/* LEFT SIDE – LOGIN FORM */}
-      <div className="w-1/2 bg-[#0f0f14] flex items-center justify-center">
-        <div className="w-95">
+      <div className="w-[50%] bg-zinc-900 flex items-center justify-center">
+        <div className="w-full max-w-sm px-10">
           <h2 className="text-white text-3xl font-semibold mb-2">
             Login
           </h2>
@@ -32,7 +41,7 @@ const Login = () => {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-transparent border-b border-gray-600 text-white py-2 focus:outline-none focus:border-purple-500"
+                className="w-full bg-transparent border-b border-gray-600 text-white py-2 focus:outline-none focus:border-purple-400"
               />
             </div>
 
@@ -61,25 +70,11 @@ const Login = () => {
       </div>
 
       {/* RIGHT SIDE – WELCOME PANEL */}
-      <div className="w-1/2 bg-purple-500 flex items-center justify-center relative">
-        <div className="bg-purple-400/60 rounded-3xl p-12 w-[80%] h-[80%] flex flex-col justify-center">
-          <h1 className="text-white text-4xl font-bold mb-4">
-            Welcome to
-            <br />
-            student portal
-          </h1>
-          <p className="text-purple-100">
-            Login to access your account
-          </p>
-
-          {/* Illustration placeholder */}
-          <div className="mt-10 flex justify-center">
-            <div className="w-64 h-64 bg-purple-300/40 rounded-xl flex items-center justify-center text-white/70">
-              Illustration
-            </div>
-          </div>
-        </div>
+      <div className="w-[50%] bg-purple-400" />
+        
       </div>
+    </div>
+
     </div>
   );
 };
