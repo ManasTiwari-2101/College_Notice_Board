@@ -9,11 +9,12 @@ const Landing = () => {
 
       {/* MAIN CARD */}
       <div
-        className="w-full max-w-7xl rounded-2xl overflow-hidden shadow-2xl relative"
+        className="w-full max-w-7xl rounded-2xl overflow-hidden shadow-2xl relative z-50"
         style={{
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          boxShadow: "10px 100px 200px rgba(120,180, 270, 0.5)",
         }}
       >
 
