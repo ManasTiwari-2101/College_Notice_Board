@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import img from "../../components/images/login.png";
+import { FaUser, FaLock, FaChevronDown } from "react-icons/fa";
+import bg from "../../components/images/landing_bg.png"; // Using the same background
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("STUDENT");
-  // New state to track specific admin type
-  const [adminType, setAdminType] = useState("Admin"); 
+  const [adminType, setAdminType] = useState("Admin");
+  const [showAdminTypes, setShowAdminTypes] = useState(false);
 
   const navigate = useNavigate();
 
@@ -15,109 +16,122 @@ const Login = () => {
     e.preventDefault();
     
     if (!email || !password) {
-      alert("Please fill in both email and password.");
+      alert("Please fill in both credentials.");
       return;
     }
 
     if (role === "STUDENT") {
       navigate("/dashboard/student");
     } else {
-      // You can now use the adminType state here if your backend needs it
-      console.log("Logging in as:", adminType);
+      console.log(`Logging in as ${adminType}`);
       navigate("/dashboard/admin");
     }
   };
 
   return (
-    <div className="relative min-h-screen">
-      <div className="absolute inset-0 -z-10 flex">
-        <div className="w-[50%] bg-zinc-900" />
-        <div className="w-[50%] bg-purple-400" />
-      </div>
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-6 relative"
+      style={{ backgroundImage: `url(${bg})` }} // Matches Landing/Admin UI
+    >
+      {/* Glassmorphic Background Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-100/40 via-blue-50/30 to-indigo-100/40 backdrop-blur-sm" />
 
-      <div className="min-h-screen flex justify-center items-center px-4 py-10">
-        <div className="flex border border-t-0 rounded-2xl overflow-hidden shadow-neutral-800 shadow-xl w-full max-w-5xl h-[88vh] z-50">
-          <div className="w-[50%] bg-zinc-900 flex items-center justify-center">
-            <div className="w-full max-w-sm px-10">
-              <h2 className="text-white text-3xl font-semibold mb-2">Login</h2>
-              <p className="text-gray-400 mb-8">Enter your account details</p>
-
-              {/* Main Role Selection */}
-              <div className="flex gap-4 mb-4">
-                <button
-                  type="button"
-                  onClick={() => setRole("STUDENT")}
-                  className={`flex-1 py-2 rounded-lg border transition ${
-                    role === "STUDENT" ? "bg-purple-500 text-white" : "border-white/30 text-white"
-                  }`}
-                >
-                  Student
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setRole("ADMIN")}
-                  className={`flex-1 py-2 rounded-lg border transition ${
-                    role === "ADMIN" ? "bg-purple-500 text-white" : "border-white/30 text-white"
-                  }`}
-                >
-                  Admin
-                </button>
-              </div>
-
-              {/* Specific Admin Type Selection (Only shows if Admin is selected) */}
-              {role === "ADMIN" && (
-                <div className="flex gap-2 mb-8 animate-in fade-in duration-300">
-                  {["Admin", "Faculty", "Club"].map((type) => (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => setAdminType(type)}
-                      className={`flex-1 py-1 text-xs rounded-md border transition ${
-                        adminType === type ? "bg-purple-400 text-white" : "border-white/20 text-gray-400"
-                      }`}
-                    >
-                      {type}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit}>
-                <div className="mb-6">
-                  <label className="text-gray-400 text-sm block mb-2">Username</label>
-                  <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-transparent border-b border-gray-600 text-white py-2 focus:outline-none focus:border-purple-400"
-                  />
-                </div>
-
-                <div className="mb-10">
-                  <label className="text-gray-400 text-sm block mb-2">Password</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-transparent border-b border-gray-600 text-white py-2 focus:outline-none focus:border-purple-500"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-purple-500 hover:bg-purple-600 transition text-white py-3 rounded-lg font-medium"
-                >
-                  Login
-                </button>
-              </form>
-            </div>
+      {/* Main Glassmorphic Card */}
+      <div className="relative z-10 w-full max-w-md bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 p-10">
+        
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-500 rounded-2xl shadow-lg mb-4 text-white text-2xl">
+            🔔
           </div>
-
-          <div className="w-[50%] bg-purple-400 flex items-center justify-center">
-            <img src={img} alt="Login Illustration" className="max-w-full h-auto" />
-          </div>
+          <h2 className="text-3xl font-bold text-gray-800">Welcome Back</h2>
+          <p className="text-gray-600 mt-2">Access the Campus Portal</p>
         </div>
+
+        {/* Role Selection Tabs */}
+        <div className="flex p-1 bg-white/40 backdrop-blur-md rounded-xl border border-white/30 mb-6">
+          <button
+            onClick={() => { setRole("STUDENT"); setShowAdminTypes(false); }}
+            className={`flex-1 py-2 rounded-lg font-medium transition-all ${
+              role === "STUDENT" ? "bg-purple-500 text-white shadow-md" : "text-gray-600 hover:bg-white/40"
+            }`}
+          >
+            Student
+          </button>
+          <button
+            onClick={() => setRole("ADMIN")}
+            className={`flex-1 py-2 rounded-lg font-medium transition-all ${
+              role === "ADMIN" ? "bg-purple-500 text-white shadow-md" : "text-gray-600 hover:bg-white/40"
+            }`}
+          >
+            Admin
+          </button>
+        </div>
+
+        {/* Admin Specific Role Selection (Only if ADMIN selected) */}
+        {role === "ADMIN" && (
+          <div className="relative mb-6 animate-in fade-in slide-in-from-top-2 duration-300">
+            <button
+              type="button"
+              onClick={() => setShowAdminTypes(!showAdminTypes)}
+              className="w-full px-4 py-3 bg-white/50 border border-purple-200 rounded-xl text-purple-700 font-medium flex items-center justify-between hover:bg-white/80 transition-all"
+            >
+              <span>Logging in as: <span className="font-bold">{adminType}</span></span>
+              <FaChevronDown className={`transition-transform ${showAdminTypes ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {showAdminTypes && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-purple-100 rounded-xl shadow-xl z-50 overflow-hidden">
+                {["Admin", "Faculty", "Club"].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => { setAdminType(type); setShowAdminTypes(false); }}
+                    className="w-full px-4 py-3 text-left hover:bg-purple-50 text-gray-700 hover:text-purple-700 transition-colors border-b last:border-0 border-purple-50"
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="relative">
+            <FaUser className="absolute left-4 top-4 text-purple-400" />
+            <input
+              type="text"
+              placeholder="Username / Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-white/50 border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white/80 transition-all placeholder:text-gray-400 text-gray-700"
+            />
+          </div>
+
+          <div className="relative">
+            <FaLock className="absolute left-4 top-4 text-purple-400" />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-white/50 border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white/80 transition-all placeholder:text-gray-400 text-gray-700"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-purple-200 hover:scale-[1.02] transition-all"
+          >
+            Sign In
+          </button>
+        </form>
+
+        {/* Footer Link */}
+        <p className="text-center text-gray-500 text-sm mt-8">
+          Need help? <span className="text-purple-600 font-medium cursor-pointer hover:underline" onClick={() => navigate("/")}>Go back to Home</span>
+        </p>
       </div>
     </div>
   );
